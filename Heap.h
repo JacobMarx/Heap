@@ -9,7 +9,7 @@ class Heap {
 public:
 	// Static members
 	const static int MAX_SIZE = 100;
-	int sizecount;
+	static int sizecount;
 
 	// Constructors
 	Heap();
@@ -18,22 +18,18 @@ public:
 	// Member functions
 	bool isEmpty() const;
 	char* toString() const;
-	size_t size() const;
-    int pop(Node**);
+	static int size();
+    static int pop(Node**);
 	
-	void push(Node**, int);
+	static void push(Node**, int);
 	
 private:
 	// Private members
-	
 	Node* root;
-	Node* target;
 	
 	// Private functions
-	void siftUp(Node*);
-	void siftDown(Node*);
-	int findTarget(Node**, Node*, int);
-	
+	static void siftUp(Node**, Node*);
+	static void siftDown(Node**, Node*);
 	
 };
 
