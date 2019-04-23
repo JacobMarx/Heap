@@ -8,13 +8,81 @@
 void getInput(Node**);
 bool getInput(Node**, char*);
 void print(Node**);
+void enter(Node**);
+void help();
 //void visual(Node**, Node*, *)
 void visual(Node*, int);
 void print(Node**);
+char* clear(char*);
 
 int Heap::sizecount = 0;
 
 int main() {
+	Node** heap = new Node*[101];
+	
+	for (int i = 0; i <= 100; i++) {
+		heap[i] = NULL;	
+	}
+	
+	int depth = 0;
+	bool stop = false;
+	
+	while (stop == false) {
+		//std::cout << "Would you like to input a file or through the console?" << std::endl;
+		char* in = new char[20];
+		//std::cin >> in;
+		if (Heap::isEmpty() == true) {
+			std::cout << "You do not have a tree would you like to create one? (yes or no)" << std::endl;
+			std::cin >> in;
+			if (strcmp(in, "yes") == 0) {
+				enter(heap);
+				clear(in);
+			}
+			else if (strcmp(in, "no") == 0) {
+				stop = true;
+				clear(in);
+				break;
+			}
+			else {
+				std::cout << "That was not a valid input" << std::endl;
+			}
+		}
+		else {
+			std::cout << "Would you like to 'print', 'list', or 'quit'?" << std::endl;
+			std::cin >> in;
+			if (strcmp(in, "print") == 0) {
+				visual(heap[1], depth);
+				clear(in);
+			}
+			else if (strcmp(in, "quit") == 0) {
+				stop = true;
+				// Need to delete tree
+				break;
+			}
+			else if (strcmp(in, "list") == 0) {
+				print(heap);
+				clear(in);
+			}
+			else {
+				std::cout << "You did not enter a valid input. If you would like help enter 'help'." 
+				<< std::endl;
+				std::cin >> in;
+				if (strcmp(in, "help") == 0) {
+					help();
+					clear(in);
+				}
+				else {
+					continue;
+				}
+			}
+		}
+		
+	}
+	
+	
+	
+	
+	/*
 	//*  = new ();
 	
 	Node** heap = new Node*[101];
@@ -28,7 +96,7 @@ int main() {
 	std::cout 
 		<< "Would you like to input a file or through the console?"
 		<< std::endl;
-	char* input;
+	char* input = new char[8];
 	std::cin >> input;
 	if (strcmp(input, "file") == 0) {
 		char* fileName;
@@ -52,23 +120,52 @@ int main() {
 			std::cout << ->root->data << std::endl;
 		}
 	}
-	*/
+	
 	int depth = 0;
 	visual(heap[1], depth);
 	print(heap);
-
+	
+	*/
 	return 0;
+}
+
+void enter(Node** heap) {
+	char* input = new char[20];
+	std::cout << "Would you like to enter values with a 'file' or 'console'" << std::endl;
+	std::cin >> input;
+	if (strcmp(input, "file") == 0) {
+		char* fileName = new char[80];
+		std::cout << "What is the name of the file?" << std::endl;
+		std::cin >> fileName;
+		getInput(heap, fileName);
+		delete[] fileName;
+	}
+	else if (strcmp(input, "console") == 0) {
+		std::cout << "Enter the values you wish to add." << std::endl;
+		getInput(heap);
+	}
+	delete[] input;
+}
+
+
+void help() {
+	std::cout << "********************HELP********************" << std::endl 
+	<< std::endl << "COMMANDS:" << std::endl 
+	<< "\t" << "'list' = Prints tree from greatest to least." << std::endl 
+	<< "\t" << "'print' = Visually print the tree." << std::endl 
+	<< "\t" << "'quit' = Stops the program." << std::endl << std::endl
+	<< "********************************************" << std::endl;
 }
 
 void getInput(Node** heap) {
 	while (Heap::size() <= Heap::MAX_SIZE) {
 		int input = 0;
-		std::cout << "ghflkfjlj\n";
+		//std::cout << "ghflkfjlj\n";
 		std::cin >> input;
 		if (input <= 1000 && input >= 1) {
-			std::cout << input << std::endl;
+			//std::cout << input << std::endl;
 			Heap::push(heap, input);
-			std::cout << "goon\n";
+			//std::cout << "goon\n";
 		}
 		//std::cin.unget();
 		//std::cout << "Whitespace: " << int(std::cin.get()) << std::endl;
@@ -78,25 +175,43 @@ void getInput(Node** heap) {
 			break;
 		}
 	}
-	std::cout << "Left function" << std::endl;
+	//std::cout << "Left function" << std::endl;
 }
 
 bool getInput(Node** heap, char* fileName) {
-	std::ifstream file;
-	file.open(fileName);
-	if (file.is_open()) {
-		int input = 0;
-		while (Heap::size() <= Heap::MAX_SIZE) {
-			if (file.get() == '\n') {
-				break;
+	while (Heap::sizecount <= Heap::MAX_SIZE) {
+		std::ifstream file;
+		file.open(fileName);
+		if (file.is_open()) {
+			//char* in = new char[1000];
+			char* in = new char[4000];
+			int input = 0;
+			int index = 0;
+			//std::cout << file.get() << std::endl;
+			//file.unget();
+			file >> in;
+			while (true) { // Gage did this
+				char current = in[index++];
+				if (current == '\0') {
+					break;
+				} else if (current == ',') {
+					Heap::push(heap, input);
+					//std::cout << "Input: " << input << std::endl;
+					input = 0;
+					continue;
+				}
+				int digit = current - '0';
+				input = input * 10 + digit;
 			}
-			file.unget();
-			file >> input;
+			//std::cout << "Input: " << input << std::endl;
 			if (input <= 1000 && input >= 1) {
 				Heap::push(heap, input);
 			}
+			return true;
 		}
-		return true;
+		else {
+			std::cout << "There is no file with that name. :(" << std::endl;
+		}
 	}
 	return false;
 }
@@ -196,4 +311,10 @@ void visual(Node* node, int depth) {
 	}
 	*/
 	
+}
+
+char* clear(char* arr) {
+	for (int i = 0; i <= 20; i++) {
+		arr[i] = '\0';
+	}
 }

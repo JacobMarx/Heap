@@ -12,7 +12,7 @@ Heap::~Heap() {
 	// do later to lazy
 }
 
-bool Heap::isEmpty() const {
+bool Heap::isEmpty() {
 	if (sizecount > 0) {
 		return false;
 	}
@@ -75,10 +75,12 @@ int Heap::pop(Node** heap) {
 	*/
 	for (int i = 2;; i++) {
 		if (heap[i] == NULL) {
-			if (i - 1 >= 1) {
+			if (i > 2) {
 				curr = heap[1]->data;
-				std::cout << curr << std::endl;
+				//std::cout << curr << std::endl;
+				if (heap[i - 1]->data != NULL && heap[1]->data != NULL) {
 				heap[1]->data = heap[i-1]->data;
+				}
 				if ((i-1) % 2 != 0) {
 					heap[i - 1]->parent->right = NULL;
 					heap[i - 1]->parent = NULL;
@@ -100,10 +102,11 @@ int Heap::pop(Node** heap) {
 			break;
 		}
 	}
-	std::cout << "hi" << std::endl;
+	//std::cout << "hi" << std::endl;
 	if (heap[1] != NULL) {
 		siftDown(heap, heap[1]);
 	}
+	//std::cout << curr << std::endl;
 	return curr;
 }
 
@@ -222,7 +225,7 @@ void Heap::push(Node** heap, int in) {
 	if (newNode->parent != NULL) {
 		siftUp(heap, newNode);
 	}
-	std::cout << " " << std::endl << in << std::endl << " " << std::endl;
+	//std::cout << " " << std::endl << in << std::endl << " " << std::endl;
 	
 }
 

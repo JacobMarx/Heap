@@ -16,7 +16,7 @@ public:
 	~Heap();
 	
 	// Member functions
-	bool isEmpty() const;
+	static bool isEmpty();
 	char* toString() const;
 	static int size();
     static int pop(Node**);
