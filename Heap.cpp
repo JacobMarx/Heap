@@ -66,6 +66,11 @@ int ::pop(Node** heap) {
 
 }
 */
+
+Node* getRoot() {
+	//return heap->root;
+}
+
 int Heap::pop(Node** heap) {
 	int curr = 0;
 	/* Why?
@@ -78,7 +83,7 @@ int Heap::pop(Node** heap) {
 			if (i > 2) {
 				curr = heap[1]->data;
 				//std::cout << curr << std::endl;
-				if (heap[i - 1]->data != NULL && heap[1]->data != NULL) {
+				if (heap[i - 1] != NULL && heap[1] != NULL) {
 				heap[1]->data = heap[i-1]->data;
 				}
 				if ((i-1) % 2 != 0) {
@@ -202,7 +207,6 @@ void Heap::push(Node** heap, int in) {
 	int index = 1;
 	Node* newNode = new Node(in);
 	sizecount++;
-	
 	// Set index = root
 	//findTarget(heap, root, index);
 	
@@ -225,6 +229,7 @@ void Heap::push(Node** heap, int in) {
 	if (newNode->parent != NULL) {
 		siftUp(heap, newNode);
 	}
+	//root = heap[1];
 	//std::cout << " " << std::endl << in << std::endl << " " << std::endl;
 	
 }

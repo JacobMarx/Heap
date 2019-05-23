@@ -20,6 +20,7 @@ public:
 	char* toString() const;
 	static int size();
     static int pop(Node**);
+	Node* getRoot();
 	
 	static void push(Node**, int);
 	

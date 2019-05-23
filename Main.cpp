@@ -2,6 +2,7 @@
 #include <iostream>
 #include <cstring>
 #include <fstream>
+#include <cstdlib>
 #include "Node.h"
 #include "Heap.h"
 
@@ -63,6 +64,20 @@ int main() {
 				print(heap);
 				clear(in);
 			}
+			/*
+			else if (strcmp(in, "1001") == 0) {
+				for (int i = 25; i > 0; i--) {
+					int add = rand() % 999;
+					if (heap->search(heap->getRoot(), add) != NULL) {
+						i++;
+					}
+					else {
+						heap->push(add);
+					}
+				}
+				break;
+			}
+			*/
 			else {
 				std::cout << "You did not enter a valid input. If you would like help enter 'help'." 
 				<< std::endl;
